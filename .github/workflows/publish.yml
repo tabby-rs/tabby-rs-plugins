@@ -1,0 +1,57 @@
+name: Publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      tabby_rs_ref:
+        description: tabby-rs branch, tag or commit to build the plugins from
+        default: main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      # The plugins' sources and `cargo xtask plugin-index` are in tabby-rs; while it is private the
+      # checkout needs a token that can read it.
+      - uses: actions/checkout@v7
+        with:
+          repository: neighbads/tabby-rs
+          ref: ${{ inputs.tabby_rs_ref || 'main' }}
+          path: tabby-rs
+          token: ${{ secrets.TABBY_RS_TOKEN }}
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.95.0
+          targets: wasm32-wasip2
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: tabby-rs -> target
+      - name: Build and sign the index
+        env:
+          TABBY_PLUGIN_INDEX_KEY: ${{ secrets.TABBY_PLUGIN_INDEX_KEY }}
+        run: scripts/build.sh tabby-rs
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

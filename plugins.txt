@@ -1,0 +1,7 @@
+# 发布到索引的插件：每行一个 tabby-rs 仓库 extensions/ 下的目录名
+quick-commands
+session-log
+server-stats
+highlight
+tcp-term
+local-term
