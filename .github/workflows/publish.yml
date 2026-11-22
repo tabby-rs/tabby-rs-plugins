@@ -27,7 +27,7 @@ jobs:
       # checkout needs a token that can read it.
       - uses: actions/checkout@v7
         with:
-          repository: neighbads/tabby-rs
+          repository: tabby-rs/tabby-rs
           ref: ${{ inputs.tabby_rs_ref || 'main' }}
           path: tabby-rs
           token: ${{ secrets.TABBY_RS_TOKEN }}

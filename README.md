@@ -37,13 +37,12 @@ INDEX_KEY_FILE=<索引私钥文件> scripts/build.sh ../tabby-rs
 
 ## 发布
 
-1. 在 GitHub 创建公开仓库 `neighbads/tabby-rs-plugins` 并推送本仓库（私有仓库的 Pages 需要付费计划）
+1. 在 GitHub 创建公开仓库 `tabby-rs/tabby-rs-plugins` 并推送本仓库（私有仓库的 Pages 需要付费计划）
 2. Settings → Pages 的 Source 选 GitHub Actions
 3. 设置仓库 secret：
    - `TABBY_PLUGIN_INDEX_KEY`：索引私钥文件的全部内容（公钥已内置在 Tabby RS，key id A75A98047A51A570）
    - `TABBY_RS_TOKEN`：能读取 tabby-rs 仓库的 token（tabby-rs 公开后可删除这一项与 workflow 中的 `token`）
-4. 推送 main 或在 Actions 页手动运行 Publish，索引地址为 `https://neighbads.github.io/tabby-rs-plugins/index.json`
-5. 把该地址填入 tabby-rs `crates/tabby-app/src/plugin_manager.rs` 的 `DEFAULT_INDEX_URL`
+4. 推送 main 或在 Actions 页手动运行 Publish，索引地址为 `https://tabby-rs.github.io/tabby-rs-plugins/index.json`，即 tabby-rs `crates/tabby-app/src/plugin_manager.rs` 的 `DEFAULT_INDEX_URL`
 
 ## 添加或更新插件
 
