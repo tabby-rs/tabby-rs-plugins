@@ -10,7 +10,7 @@ tabby-rs-plugins/
 ├─ scripts/build.sh                # 构建插件、打包并写出 site/
 ├─ .github/workflows/publish.yml   # 推送 main 或手动触发时构建、签名并发布到 GitHub Pages
 └─ site/                           # 构建输出（不入库）
-   ├─ index.json                   # 插件列表、版本、包的 sha256 与大小、能力
+   ├─ index.json                   # 插件列表、版本、包的 sha256 与大小、能力、各语言的描述
    ├─ index.json.minisig           # index.json 的签名（带密钥构建时）
    └─ <id>-<version>.tar.gz        # 插件包
 ```
@@ -46,7 +46,7 @@ INDEX_KEY_FILE=<索引私钥文件> scripts/build.sh ../tabby-rs
 
 ## 添加或更新插件
 
-1. 在 tabby-rs 的 `extensions/<id>/` 修改插件，更新 `extension.toml` 的 `version`
+1. 在 tabby-rs 的 `extensions/<id>/` 修改插件，更新 `extension.toml` 的 `version`；改了文案时在 tabby-rs 中运行 `cargo +1.95.0 xtask plugin-i18n extensions/<id>` 把新原文补进 `locales/*.po` 并翻译（打包时检查这些文件，格式错误时构建失败）
 2. 新插件把目录名加入 `plugins.txt`
 3. 推送 main，或在 Actions 页手动运行 Publish 并填写 tabby-rs 的分支、tag 或提交
 
